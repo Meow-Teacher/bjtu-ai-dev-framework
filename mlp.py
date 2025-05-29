@@ -1004,6 +1004,8 @@ class NeuralNetwork:
         # Calculate loss
         loss = self.loss_function(y, y_pred)
         
+        print("y_pred min:", y_pred.min(), "max:", y_pred.max(), "sum per row:", np.sum(y_pred, axis=1)[:5])
+        
         return loss, y_pred
     
     def save(self, filepath):
@@ -1800,3 +1802,7 @@ if __name__ == '__main__':
     
     print(f"Training R² score: {train_score:.4f}")
     print(f"Test R² score: {test_score:.4f}")
+
+    # Reset indices for y_train and y_test
+    y_train = y_train.reset_index(drop=True)
+    y_test = y_test.reset_index(drop=True)

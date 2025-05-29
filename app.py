@@ -162,7 +162,6 @@ def train_model(model_id, X, y, training_params=None):
         if training_params:
             payload["training_params"] = training_params
         
-        print(payload)
         response = requests.post(f"{API_BASE_URL}/models/{model_id}/train", json=payload)
         if response.status_code == 200:
             return response.json()
@@ -300,7 +299,7 @@ def preprocess_data(df, target_column, test_size=0.2, random_state=42, normalize
     
     # 检查是否为分类问题
     unique_values = y.unique()
-    is_classification = len(unique_values) < 10 or y.dtype == 'object'
+    is_classification = len(unique_values) <= 10 or y.dtype == 'object'
     
     # 如果是分类问题，将目标转换为数值
     if is_classification:
@@ -545,7 +544,6 @@ def main():
                     # 开始训练按钮
                     if st.button("开始训练"):
                         with st.spinner("正在启动训练..."):
-                            print(type(st.session_state.y_train))
                             result = train_model(
                                 model_id, 
                                 st.session_state.X_train, 
